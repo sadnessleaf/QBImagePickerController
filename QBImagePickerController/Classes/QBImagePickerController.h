@@ -38,7 +38,7 @@ typedef NS_ENUM(NSInteger, QBImagePickerFilterType) {
 
 @interface QBImagePickerController : UIViewController <UITableViewDataSource, UITableViewDelegate, QBAssetCollectionViewControllerDelegate>
 
-@property (nonatomic, weak) id<QBImagePickerControllerDelegate> delegate;
+@property (nonatomic, assign) id<QBImagePickerControllerDelegate> delegate;
 @property (nonatomic, assign) QBImagePickerFilterType filterType;
 @property (nonatomic, assign) BOOL showsCancelButton;
 @property (nonatomic, assign) BOOL fullScreenLayoutEnabled;

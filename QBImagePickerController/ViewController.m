@@ -12,33 +12,33 @@
 
 - (IBAction)pickSinglePhoto:(id)sender
 {
-    QBImagePickerController *imagePickerController = [[QBImagePickerController alloc] init];
+    QBImagePickerController *imagePickerController = [[[QBImagePickerController alloc] init] autorelease];
     imagePickerController.delegate = self;
     
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePickerController];
+    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:imagePickerController] autorelease];
     [self presentViewController:navigationController animated:YES completion:NULL];
 }
 
 - (IBAction)pickMultiplePhotos:(id)sender
 {
-    QBImagePickerController *imagePickerController = [[QBImagePickerController alloc] init];
+    QBImagePickerController *imagePickerController = [[[QBImagePickerController alloc] init] autorelease];
     imagePickerController.delegate = self;
     imagePickerController.allowsMultipleSelection = YES;
     
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePickerController];
+    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:imagePickerController] autorelease];
     [self presentViewController:navigationController animated:YES completion:NULL];
 }
 
 - (IBAction)pickWithLimitation:(id)sender
 {
-    QBImagePickerController *imagePickerController = [[QBImagePickerController alloc] init];
+    QBImagePickerController *imagePickerController = [[[QBImagePickerController alloc] init] autorelease];
     imagePickerController.delegate = self;
     imagePickerController.allowsMultipleSelection = YES;
     
     imagePickerController.limitsMinimumNumberOfSelection = YES;
     imagePickerController.minimumNumberOfSelection = 6;
     
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePickerController];
+    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:imagePickerController] autorelease];
     [self presentViewController:navigationController animated:YES completion:NULL];
 }
 

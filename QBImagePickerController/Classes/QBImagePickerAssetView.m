@@ -15,9 +15,9 @@
 
 @interface QBImagePickerAssetView ()
 
-@property (nonatomic, strong) UIImageView *imageView;
-@property (nonatomic, strong) QBImagePickerVideoInfoView *videoInfoView;
-@property (nonatomic, strong) UIImageView *overlayImageView;
+@property (nonatomic, retain) UIImageView *imageView;
+@property (nonatomic, retain) QBImagePickerVideoInfoView *videoInfoView;
+@property (nonatomic, retain) UIImageView *overlayImageView;
 
 - (UIImage *)thumbnail;
 - (UIImage *)tintedThumbnail;
@@ -26,14 +26,22 @@
 
 @implementation QBImagePickerAssetView
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (void)dealloc {
+    [_asset release];
+    [_imageView release];
+    [_videoInfoView release];
+    [_overlayImageView release];
+    
+    [super dealloc];
+}
+- (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     
     if (self) {
         /* Initialization */
         // Image View
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        UIImageView *imageView = [[[UIImageView alloc] initWithFrame:self.bounds] autorelease];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.clipsToBounds = YES;
         imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -42,7 +50,7 @@
         self.imageView = imageView;
         
         // Video Info View
-        QBImagePickerVideoInfoView *videoInfoView = [[QBImagePickerVideoInfoView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height - 17, self.bounds.size.width, 17)];
+        QBImagePickerVideoInfoView *videoInfoView = [[[QBImagePickerVideoInfoView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height - 17, self.bounds.size.width, 17)] autorelease];
         videoInfoView.hidden = YES;
         videoInfoView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
         
@@ -50,7 +58,7 @@
         self.videoInfoView = videoInfoView;
         
         // Overlay Image View
-        UIImageView *overlayImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        UIImageView *overlayImageView = [[[UIImageView alloc] initWithFrame:self.bounds] autorelease];
         overlayImageView.contentMode = UIViewContentModeScaleAspectFill;
         overlayImageView.clipsToBounds = YES;
         overlayImageView.image = [UIImage imageNamed:@"QBImagePickerController.bundle/overlay.png"];

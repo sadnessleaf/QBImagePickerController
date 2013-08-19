@@ -12,14 +12,20 @@
 
 @implementation QBImagePickerGroupCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (void)dealloc {
+    [_titleLabel release];
+    [_countLabel release];
+    
+    [super dealloc];
+}
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
     if (self) {
         /* Initialization */
         // Title
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+        UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         titleLabel.font = [UIFont boldSystemFontOfSize:17];
         titleLabel.textColor = [UIColor blackColor];
         titleLabel.highlightedTextColor = [UIColor whiteColor];
@@ -29,7 +35,7 @@
         self.titleLabel = titleLabel;
         
         // Count
-        UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+        UILabel *countLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         countLabel.font = [UIFont systemFontOfSize:17];
         countLabel.textColor = [UIColor colorWithWhite:0.498 alpha:1.0];
         countLabel.highlightedTextColor = [UIColor whiteColor];

@@ -21,7 +21,12 @@
 
 @implementation QBImagePickerAssetCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier imageSize:(CGSize)imageSize numberOfAssets:(NSUInteger)numberOfAssets margin:(CGFloat)margin
+- (void)dealloc {
+    [_assets release];
+    
+    [super dealloc];
+}
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier imageSize:(CGSize)imageSize numberOfAssets:(NSUInteger)numberOfAssets margin:(CGFloat)margin
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     

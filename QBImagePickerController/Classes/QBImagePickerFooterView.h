@@ -12,6 +12,6 @@
 
 @interface QBImagePickerFooterView : UIView
 
-@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, retain) UILabel *titleLabel;
 
 @end

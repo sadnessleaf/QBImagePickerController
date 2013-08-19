@@ -12,13 +12,18 @@
 
 @implementation QBImagePickerFooterView
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (void)dealloc {
+    [_titleLabel release];
+    
+    [super dealloc];
+}
+- (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     
     if (self) {
         /* Initialization */
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
+        UILabel *titleLabel = [[[UILabel alloc] initWithFrame:self.bounds] autorelease];
         titleLabel.font = [UIFont systemFontOfSize:20];
         titleLabel.textAlignment = NSTextAlignmentCenter;
         titleLabel.textColor = [UIColor colorWithRed:0.502 green:0.533 blue:0.58 alpha:1.0];

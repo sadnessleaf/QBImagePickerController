@@ -12,13 +12,18 @@
 
 @interface QBImagePickerVideoInfoView ()
 
-@property (nonatomic, strong) UILabel *durationLabel;
+@property (nonatomic, retain) UILabel *durationLabel;
 
 @end
 
 @implementation QBImagePickerVideoInfoView
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (void)dealloc {
+    [_durationLabel release];
+    
+    [super dealloc];
+}
+- (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     
@@ -27,7 +32,7 @@
         
         // Image View
         CGRect iconImageViewFrame = CGRectMake(6, (self.bounds.size.height - 8) / 2, 14, 8);
-        UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:iconImageViewFrame];
+        UIImageView *iconImageView = [[[UIImageView alloc] initWithFrame:iconImageViewFrame] autorelease];
         iconImageView.image = [UIImage imageNamed:@"QBImagePickerController.bundle/video.png"];
         iconImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
         
@@ -35,7 +40,7 @@
         
         // Label
         CGRect durationLabelFrame = CGRectMake(iconImageViewFrame.origin.x + iconImageViewFrame.size.width + 6, 0, self.bounds.size.width - (iconImageViewFrame.origin.x + iconImageViewFrame.size.width + 6) - 6, self.bounds.size.height);
-        UILabel *durationLabel = [[UILabel alloc] initWithFrame:durationLabelFrame];
+        UILabel *durationLabel = [[[UILabel alloc] initWithFrame:durationLabelFrame] autorelease];
         durationLabel.backgroundColor = [UIColor clearColor];
         durationLabel.textAlignment = NSTextAlignmentRight;
         durationLabel.textColor = [UIColor whiteColor];

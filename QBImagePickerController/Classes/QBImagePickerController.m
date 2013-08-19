@@ -18,10 +18,10 @@
 
 @interface QBImagePickerController ()
 
-@property (nonatomic, strong) ALAssetsLibrary *assetsLibrary;
-@property (nonatomic, strong) NSMutableArray *assetsGroups;
+@property (nonatomic, retain) ALAssetsLibrary *assetsLibrary;
+@property (nonatomic, retain) NSMutableArray *assetsGroups;
 
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, retain) UITableView *tableView;
 
 @property (nonatomic, assign) UIBarStyle previousBarStyle;
 @property (nonatomic, assign) BOOL previousBarTranslucent;
@@ -34,7 +34,14 @@
 
 @implementation QBImagePickerController
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (void)dealloc {
+    [_assetsLibrary release];
+    [_assetsGroups release];
+    [_tableView release];
+    
+    [super dealloc];
+}
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
@@ -56,7 +63,7 @@
         self.minimumNumberOfSelection = 0;
         self.maximumNumberOfSelection = 0;
         
-        ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
+        ALAssetsLibrary *assetsLibrary = [[[ALAssetsLibrary alloc] init] autorelease];
         self.assetsLibrary = assetsLibrary;
         
         self.assetsGroups = [NSMutableArray array];
@@ -221,7 +228,7 @@
     QBImagePickerGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (cell == nil) {
-        cell = [[QBImagePickerGroupCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [[[QBImagePickerGroupCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     

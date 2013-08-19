@@ -16,11 +16,11 @@
 
 @interface QBAssetCollectionViewController ()
 
-@property (nonatomic, strong) NSMutableArray *assets;
-@property (nonatomic, strong) NSMutableOrderedSet *selectedAssets;
+@property (nonatomic, retain) NSMutableArray *assets;
+@property (nonatomic, retain) NSMutableOrderedSet *selectedAssets;
 
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) UIBarButtonItem *doneButton;
+@property (nonatomic, retain) UITableView *tableView;
+@property (nonatomic, retain) UIBarButtonItem *doneButton;
 
 - (void)reloadData;
 - (void)updateRightBarButtonItem;
@@ -32,7 +32,16 @@
 
 @implementation QBAssetCollectionViewController
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (void)dealloc {
+    [_assetsGroup release];
+    [_assets release];
+    [_selectedAssets release];
+    [_tableView release];
+    [_doneButton release];
+    
+    [super dealloc];
+}
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
@@ -142,7 +151,7 @@
                 break;
         }
         
-        QBImagePickerFooterView *footerView = [[QBImagePickerFooterView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 48)];
+        QBImagePickerFooterView *footerView = [[[QBImagePickerFooterView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 48)] autorelease];
         
         if (self.filterType == QBImagePickerFilterTypeAllAssets) {
             footerView.titleLabel.text = [self.delegate assetCollectionViewController:self descriptionForNumberOfPhotos:numberOfPhotos numberOfVideos:numberOfVideos];
@@ -154,7 +163,7 @@
         
         self.tableView.tableFooterView = footerView;
     } else {
-        QBImagePickerFooterView *footerView = [[QBImagePickerFooterView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 4)];
+        QBImagePickerFooterView *footerView = [[[QBImagePickerFooterView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 4)] autorelease];
         
         self.tableView.tableFooterView = footerView;
     }
@@ -241,7 +250,7 @@
             cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
             
             if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
                 cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             }
             
@@ -249,7 +258,7 @@
                 cell.textLabel.text = [self.delegate descriptionForDeselectingAllAssets:self];
                 
                 // Set accessory view
-                UIImageView *accessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 23, 23)];
+                UIImageView *accessoryView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 23, 23)] autorelease];
                 accessoryView.image = [UIImage imageNamed:@"QBImagePickerController.bundle/minus.png"];
                 
                 accessoryView.layer.shadowColor = [[UIColor colorWithWhite:0 alpha:1.0] CGColor];
@@ -262,7 +271,7 @@
                 cell.textLabel.text = [self.delegate descriptionForSelectingAllAssets:self];
                 
                 // Set accessory view
-                UIImageView *accessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 23, 23)];
+                UIImageView *accessoryView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 23, 23)] autorelease];
                 accessoryView.image = [UIImage imageNamed:@"QBImagePickerController.bundle/plus.png"];
                 
                 accessoryView.layer.shadowColor = [[UIColor colorWithWhite:0 alpha:1.0] CGColor];
@@ -280,11 +289,11 @@
             cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
             
             if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 
                 // Set background view
-                UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+                UIView *backgroundView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)] autorelease];
                 backgroundView.backgroundColor = [UIColor colorWithWhite:0.878 alpha:1.0];
                 
                 cell.backgroundView = backgroundView;
@@ -300,7 +309,7 @@
                 NSInteger numberOfAssetsInRow = self.view.bounds.size.width / self.imageSize.width;
                 CGFloat margin = round((self.view.bounds.size.width - self.imageSize.width * numberOfAssetsInRow) / (numberOfAssetsInRow + 1));
                 
-                cell = [[QBImagePickerAssetCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier imageSize:self.imageSize numberOfAssets:numberOfAssetsInRow margin:margin];
+                cell = [[[QBImagePickerAssetCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier imageSize:self.imageSize numberOfAssets:numberOfAssetsInRow margin:margin] autorelease];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 [(QBImagePickerAssetCell *)cell setDelegate:self];
                 [(QBImagePickerAssetCell *)cell setAllowsMultipleSelection:self.allowsMultipleSelection];
